@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Markov · Comprendre l'IA Générative</title>
+<title>Markov IA · Comprendre l'IA Générative</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
 <!-- ═══ PARSEURS EXTERNES ═══ -->
@@ -45,6 +45,7 @@ h1 .grad{background:linear-gradient(135deg,var(--accent),var(--accent2),var(--ac
 .step.active{color:var(--accent)} .step.done{color:var(--accent3)}
 .step-num{width:20px;height:20px;border:1px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
 .step-sep{width:30px;height:1px;background:var(--border)}
+.steps-label{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-right:.75rem;border-right:1px solid var(--border);padding-right:.75rem;align-self:center}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;transition:border-color .3s}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
 .card:hover{border-color:rgba(124,109,255,.3)} .card:hover::before{opacity:1}
@@ -142,6 +143,13 @@ canvas#paretoCanvas{width:100%;height:100%}
 .pareto-legend-item{display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--muted)}
 .pareto-legend-dot{width:10px;height:3px;border-radius:2px}
 
+/* ── MARKOV INTRO ── */
+.markov-intro{background:linear-gradient(135deg,rgba(255,217,109,.04),rgba(124,109,255,.04));border:1px solid rgba(255,217,109,.2);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.markov-intro-title{font-family:var(--fd);font-size:.9rem;font-weight:700;margin-bottom:.8rem;color:var(--accent4);text-transform:uppercase;letter-spacing:.08em}
+.markov-intro p{font-size:.72rem;color:var(--muted);line-height:1.7;margin-bottom:.5rem}
+.markov-intro strong{color:var(--text)}
+.markov-formula{background:var(--surface2);border-left:2px solid var(--accent4);padding:.6rem 1rem;font-size:.75rem;color:var(--accent3);margin:.75rem 0;border-radius:0 4px 4px 0;letter-spacing:.04em}
+
 /* ── PEDAGOGY ── */
 .pedagogy{background:linear-gradient(135deg,rgba(124,109,255,.05),rgba(109,255,204,.03));border:1px solid rgba(124,109,255,.15);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
 .pedagogy h3{font-family:var(--fd);font-size:.9rem;font-weight:700;margin-bottom:.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
@@ -214,12 +222,13 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
 <div class="wrapper">
 
 <header>
-  <div class="badge">🧠 Lab IA — Modèles de Langage</div>
-  <h1>MARKOV<br><span class="grad">LANGUAGE</span></h1>
+  <div class="badge">Lab IA — Modèles de Langage</div>
+  <h1>MARKOV<br><span class="grad">IA</span></h1>
   <p class="subtitle">Comprendre la génération de texte par les probabilités de transition</p>
 </header>
 
 <div class="steps">
+  <div class="steps-label">Processus</div>
   <div class="step active" id="step1"><div class="step-num">1</div><span>Importer</span></div>
   <div class="step-sep"></div>
   <div class="step" id="step2"><div class="step-num">2</div><span>Analyser</span></div>
@@ -228,10 +237,17 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
 </div>
 
 <div class="pedagogy">
-  <h3>🎓 Comment fonctionne une IA générative ?</h3>
-  <p>Les grands modèles de langage prédisent le mot suivant à partir d'un contexte donné. Ce laboratoire illustre le principe fondamental avec une <strong style="color:var(--accent)">chaîne de Markov du 1er ordre</strong> : chaque mot prédit uniquement le suivant.</p>
+  <h3>Comment fonctionne une IA générative ?</h3>
+  <p>Les grands modèles de langage actuels (LLMs) dédiés à la génération de texte reposent sur un principe fondamental : prédire le mot le plus probable à partir d'un contexte donné. La première idée qui vient naturellement à l'esprit est de chercher, pour chaque mot, quel mot a le plus de chances de le suivre, en se basant sur les occurrences observées dans un texte. En remontant l'histoire des mathématiques, on retrouve rapidement ce raisonnement dans les <strong style="color:var(--accent)">processus de chaînes de Markov</strong>, formalisés dès le début du XXᵉ siècle. Cette page a pour objet d'illustrer ce principe fondamental à travers un modèle basé sur la <strong style="color:var(--accent)">chaîne de Markov du 1er ordre</strong>, le modèle le plus simple : chaque mot prédit uniquement le suivant. On pourrait ainsi considérer ce modèle comme le <strong style="color:var(--accent)">premier modèle de génération de texte</strong>, qui remonterait à 1906.</p>
   <div class="formula">P(mot suivant | mot actuel) = nb_transitions(mot→suivant) / nb_total_transitions(mot→*)</div>
   <p>La matrice de transition que vous allez construire est l'ancêtre des embeddings et couches d'attention des LLMs modernes.</p>
+</div>
+
+<div class="markov-intro">
+  <div class="markov-intro-title">1906 : la naissance des chaînes de probabilités avec Andreï Markov</div>
+  <p>Andreï Andreïevitch Markov (1856–1922) est un mathématicien russe de l'école de Saint-Pétersbourg, élève du célèbre Pafnouti Tchebychev. En 1906, en analysant l'alternance des voyelles et des consonnes dans le roman en vers <em>Eugène Onéguine</em> de Pouchkine, il formalise ce qui sera appelé une <strong>chaîne de Markov</strong> : un modèle mathématique décrivant une séquence d'événements où la probabilité de chaque événement ne dépend que de l'état immédiatement précédent, et non de toute l'histoire passée. Cette propriété, appelée <strong>propriété de Markov</strong> ou <strong>absence de mémoire</strong>, s'écrit :</p>
+  <div class="markov-formula">P(X<sub>n+1</sub> = x | X<sub>n</sub>, X<sub>n-1</sub>, …, X<sub>1</sub>) = P(X<sub>n+1</sub> = x | X<sub>n</sub>)</div>
+  <p>D'abord outil purement théorique, ce modèle trouvera des applications considérables au XXᵉ siècle en physique statistique, en biologie et en finance, avant de devenir un siècle plus tard l'ancêtre conceptuel direct des modèles de langage de l'intelligence artificielle.</p>
 </div>
 
 <!-- ══ ÉTAPE 1 ══ -->
@@ -264,11 +280,11 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
   <div class="stats-grid" id="statsGrid"></div>
 
   <div class="btn-row" style="margin-top:1.2rem">
-    <button class="btn btn-primary" id="btnBuildMatrix">⚙ Construire la matrice</button>
-    <button class="btn btn-ghost" id="btnShowMatrix"    disabled>🔲 Matrice</button>
-    <button class="btn btn-ghost" id="btnShowWords"     disabled>📋 Mots</button>
-    <button class="btn btn-ghost" id="btnShowTopWords"  disabled>📊 Top mots</button>
-    <button class="btn btn-ghost" id="btnShowPareto"    disabled>📈 Pareto</button>
+    <button class="btn btn-primary" id="btnBuildMatrix">Construire la matrice</button>
+    <button class="btn btn-ghost" id="btnShowMatrix"    disabled>Matrice</button>
+    <button class="btn btn-ghost" id="btnShowWords"     disabled>Mots</button>
+    <button class="btn btn-ghost" id="btnShowTopWords"  disabled>Top mots</button>
+    <button class="btn btn-ghost" id="btnShowPareto"    disabled>Pareto</button>
   </div>
 
   <!-- MATRIX SECTION -->
@@ -347,11 +363,11 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
       <label>Nb. de mots (1–50)</label>
       <input type="number" id="repeatCount" value="1" min="1" max="50">
     </div>
-    <button class="btn btn-primary" id="btnGenerate" style="align-self:flex-end">▶ Générer</button>
+    <button class="btn btn-primary" id="btnGenerate" style="align-self:flex-end">Générer</button>
   </div>
   <div class="result-box" id="resultBox"><span style="color:var(--muted);font-size:.72rem">Le texte généré apparaîtra ici…</span></div>
   <div style="margin-top:.75rem;font-size:.65rem;color:var(--muted);line-height:1.6">
-    💡 <strong style="color:var(--accent)">Violet</strong> = mot de départ &nbsp;·&nbsp;
+    <strong style="color:var(--accent)">Violet</strong> = mot de départ &nbsp;·&nbsp;
     <strong style="color:var(--accent3)">Vert</strong> = mots générés &nbsp;·&nbsp;
     <strong style="color:var(--accent2)">Rose</strong> = mot inconnu ou chemin mort
   </div>
@@ -365,7 +381,7 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
   </div>
 
   <div class="theory-block">
-    <h3><span>🔵</span> Chaîne de Markov d'ordre 1 — le tenseur d'ordre 2</h3>
+    <h3>Chaîne de Markov d'ordre 1 · le tenseur d'ordre 2</h3>
     <p>Une chaîne de Markov d'ordre 1 repose sur la <strong>propriété de Markov</strong> : la probabilité du prochain état dépend <strong>uniquement de l'état présent</strong>, indépendamment de l'histoire passée.</p>
     <div class="theory-formula">P(mot_n+1 | mot_n, mot_n-1, …, mot_1) = P(mot_n+1 | mot_n)</div>
     <p>Cette relation se représente comme une <strong>matrice carrée V×V</strong> — un tenseur d'ordre 2 — où V est la taille du vocabulaire. Chaque ligne somme à 1 (matrice stochastique).</p>
@@ -389,14 +405,14 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
   </div>
 
   <div class="theory-block" style="border-color:rgba(255,217,109,.2)">
-    <h3><span>🟡</span> Vers l'ordre 2 — le tenseur d'ordre 3</h3>
+    <h3>Vers l'ordre 2 · le tenseur d'ordre 3</h3>
     <p>En conditionnant sur les <strong>deux derniers mots</strong>, on construit un tenseur d'ordre 3 — une "pile" de V matrices, une par premier mot de contexte.</p>
     <div class="theory-formula">T[i, j, k] = P(mot_k | mot_i, mot_j) = count(i, j → k) / Σ_l count(i, j → l)</div>
-    <div class="highlight-box">💡 <strong>Gain concret</strong> : l'ordre 2 distingue "le chat dort" de "le soleil dort" là où l'ordre 1 les confondrait. Le texte généré devient nettement plus cohérent localement.</div>
+    <div class="highlight-box"><strong>Gain concret</strong> : l'ordre 2 distingue "le chat dort" de "le soleil dort" là où l'ordre 1 les confondrait. Le texte généré devient nettement plus cohérent localement.</div>
   </div>
 
   <div class="theory-block" style="border-color:rgba(255,109,155,.2)">
-    <h3><span>🔴</span> Généralisation à l'ordre n — et la malédiction de la dimensionnalité</h3>
+    <h3>Généralisation à l'ordre n · la malédiction de la dimensionnalité</h3>
     <p>Un modèle d'ordre n utilise les n derniers mots (tenseur d'ordre n+1). Sur le plan théorique c'est possible ; en pratique le coût explose exponentiellement.</p>
     <table class="complexity-table">
       <thead><tr><th>Ordre</th><th>Tenseur</th><th>Cases (V=10 000)</th><th>Mémoire</th><th>Coût</th></tr></thead>
@@ -425,12 +441,12 @@ footer{text-align:center;padding:3rem 0 2rem;font-size:.62rem;color:var(--border
       </div>
     </div>
     <div class="highlight-box" style="border-color:rgba(255,109,155,.25);background:linear-gradient(135deg,rgba(255,109,155,.05),rgba(124,109,255,.04));color:var(--accent2);margin-top:1.5rem">
-      🔑 <strong>L'intuition clé</strong> : un LLM fait toujours P(mot suivant | contexte), mais le contexte est encodé dans un <strong>espace vectoriel dense</strong> où la mémoire entière est compressée par l'attention. Le tenseur n'est plus explicite : il est distribué dans les milliards de poids du réseau.
+      <strong>L'intuition clé</strong> : un LLM fait toujours P(mot suivant | contexte), mais le contexte est encodé dans un <strong>espace vectoriel dense</strong> où la mémoire entière est compressée par l'attention. Le tenseur n'est plus explicite : il est distribué dans les milliards de poids du réseau.
     </div>
   </div>
 </div>
 
-<footer>Markov Language Lab · Outil pédagogique IA · Chaînes de Markov 1er ordre</footer>
+<footer>Markov IA · Outil pédagogique · Chaînes de Markov 1er ordre</footer>
 </div><!-- /wrapper -->
 
 <div class="notif" id="notif">
@@ -640,7 +656,7 @@ function buildMatrix(){
         normMatrix[i][ji]=ji===i?wordCounts[vocab[i]]:(total>0?freqMatrix[i][j]/total:0);
       }
     }
-    matrixBuilt=true;btn.disabled=false;btn.innerHTML='⚙ Reconstruire la matrice';
+    matrixBuilt=true;btn.disabled=false;btn.innerHTML='Reconstruire la matrice';
     ['btnShowMatrix','btnShowWords','btnShowTopWords','btnShowPareto'].forEach(id=>document.getElementById(id).disabled=false);
     document.getElementById('sectionGenerate').classList.add('visible');
     setStep(3);
