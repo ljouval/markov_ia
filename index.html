@@ -17,9 +17,8 @@
 <div class="wrapper">
 
 <header>
-  <div class="badge">Lab IA — Modèles de Langage</div>
   <h1><span class="grad">MARKOV IA</span></h1>
-  <p class="subtitle">Comprendre la génération de texte par les probabilités de transition</p>
+  <p class="subtitle">Comprendre la génération de texte par un modèle primitif selon les probabilités de transition</p>
 </header>
 
 <div class="steps">
@@ -33,7 +32,11 @@
 
 <div class="pedagogy">
   <h3>Comment fonctionne une IA générative ?</h3>
-  <p>Les grands modèles de langage actuels (LLMs) dédiés à la génération de texte reposent sur un principe fondamental : prédire le mot le plus probable à partir d'un contexte donné. La première idée qui vient naturellement à l'esprit est de chercher, pour chaque mot, quel mot a le plus de chances de le suivre, en se basant sur les occurrences observées dans un texte. En remontant l'histoire des mathématiques, on retrouve rapidement ce raisonnement dans les <strong style="color:var(--accent)">processus de chaînes de Markov</strong>, formalisés dès le début du XXᵉ siècle. Cette page a pour objet d'illustrer ce principe fondamental à travers un modèle basé sur la <strong style="color:var(--accent)">chaîne de Markov du 1er ordre</strong>, le modèle le plus simple : chaque mot prédit uniquement le suivant. On pourrait ainsi considérer ce modèle comme le <strong style="color:var(--accent)">premier modèle de génération de texte</strong>, qui remonterait à 1906.</p>
+  <p>Les grands modèles de langage actuels (LLMs) dédiés à la génération de texte reposent sur un principe fondamental: prédire le mot le plus probable à partir d'un contexte donné.<br><br>
+  La première idée qui vient naturellement à l'esprit est de chercher, pour chaque mot, quel mot a le plus de chances de le suivre, en se basant sur les occurrences observées dans un texte.<br><br>
+  En remontant l'histoire des mathématiques, on retrouve rapidement ce raisonnement dans les <strong style="color:var(--accent)">processus de chaînes de Markov</strong>, formalisés dès le début du XXᵉ siècle.<br><br>
+  Cette page a pour objet d'illustrer ce principe fondamental à travers un modèle basé sur la <strong style="color:var(--accent)">chaîne de Markov du 1er ordre</strong>, le modèle le plus simple : chaque mot prédit uniquement le suivant.<br><br>
+  On pourrait ainsi considérer ce modèle comme le <strong style="color:var(--accent)">premier modèle de génération de texte</strong>, qui remonterait alors à 1906...</p>
   <div class="formula">P(mot suivant | mot actuel) = nb_transitions(mot→suivant) / nb_total_transitions(mot→*)</div>
   <p>La matrice de transition que vous allez construire est l'ancêtre des embeddings et couches d'attention des LLMs modernes.</p>
 </div>
@@ -43,6 +46,20 @@
   <p>Andreï Andreïevitch Markov (1856–1922) est un mathématicien russe de l'école de Saint-Pétersbourg, élève du célèbre Pafnouti Tchebychev. En 1906, en analysant l'alternance des voyelles et des consonnes dans le roman en vers <em>Eugène Onéguine</em> de Pouchkine, il formalise ce qui sera appelé une <strong>chaîne de Markov</strong> : un modèle mathématique décrivant une séquence d'événements où la probabilité de chaque événement ne dépend que de l'état immédiatement précédent, et non de toute l'histoire passée. Cette propriété, appelée <strong>propriété de Markov</strong> ou <strong>absence de mémoire</strong>, s'écrit :</p>
   <div class="markov-formula">P(X<sub>n+1</sub> = x | X<sub>n</sub>, X<sub>n-1</sub>, …, X<sub>1</sub>) = P(X<sub>n+1</sub> = x | X<sub>n</sub>)</div>
   <p>D'abord outil purement théorique, ce modèle trouvera des applications considérables au XXᵉ siècle en physique statistique, en biologie et en finance, avant de devenir un siècle plus tard l'ancêtre conceptuel direct des modèles de langage de l'intelligence artificielle.</p>
+</div>
+
+<!-- ══ INTRO PROCESSUS ══ -->
+<div class="markov-intro">
+  <div class="markov-intro-title">Processus de génération de texte avec le modèle MARKOV IA</div>
+  <p>Avec cette page, il est possible d'expérimenter le processus de génération de texte, selon le document de votre choix.</p>
+  <p>Ce modèle répond également à <em>« Comment prédire le mot qui suit à partir des mots contenus dans un texte de son choix ? »</em>.</p>
+  <p>Ce processus se décompose en 3 étapes :</p>
+  <ul class="process-steps-list">
+    <li><strong>Étape 1 · Importer</strong> un document de votre choix contenant du texte en format <span class="tag txt" style="font-size:.65rem">.txt</span> <span class="tag pdf" style="font-size:.65rem">.pdf</span> <span class="tag docx" style="font-size:.65rem">.docx</span> <span class="tag pptx" style="font-size:.65rem">.pptx</span> <span class="tag data" style="font-size:.65rem">.csv</span> <span class="tag data" style="font-size:.65rem">.xlsx</span></li>
+    <li><strong>Étape 2 · Analyser</strong> le texte pour construire le modèle avec la « Matrice de Markov »</li>
+    <li><strong>Étape 3 · Générer</strong> du texte avec le modèle construit à partir de votre document</li>
+  </ul>
+  <p>Cette expérience permet dans un premier temps de voir concrètement les statistiques des mots de votre texte, et puis après quelques essais permet de procurer de nouvelles intuitions sur la génération de texte par apprentissage.</p>
 </div>
 
 <!-- ══ ÉTAPE 1 ══ -->
@@ -218,6 +235,10 @@
         <tr><td>Ordre n</td><td>V^(n+1)</td><td>V^(n+1)</td><td>—</td><td class="cost-crit">✗✗ Explosion</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="theory-block" style="border-color:rgba(255,109,155,.2)">
+    <h3>Récapitulatif historique</h3>
     <div class="theory-timeline">
       <div class="timeline-item">
         <div class="timeline-year">Ordre 1 · Markov 1906</div>
@@ -235,10 +256,15 @@
         <div class="timeline-desc">Bengio (2003) puis les Transformers (2017) résolvent le problème : au lieu de stocker explicitement le tenseur, un réseau le compresse dans des poids continus. GPT, Claude et les LLMs modernes font toujours P(mot | contexte), mais avec des contextes de centaines de milliers de tokens.</div>
       </div>
     </div>
-    <div class="highlight-box" style="border-color:rgba(255,109,155,.25);background:linear-gradient(135deg,rgba(255,109,155,.05),rgba(124,109,255,.04));color:var(--accent2);margin-top:1.5rem">
+  </div>
+
+  <div class="theory-block" style="border-color:rgba(255,109,155,.25)">
+    <h3>Vers les espaces vectoriels denses et les réseaux de neurones</h3>
+    <div class="highlight-box" style="border-color:rgba(255,109,155,.25);background:linear-gradient(135deg,rgba(255,109,155,.05),rgba(124,109,255,.04));color:var(--accent2);margin-top:0">
       <strong>L'intuition clé</strong> : un LLM fait toujours P(mot suivant | contexte), mais le contexte est encodé dans un <strong>espace vectoriel dense</strong> où la mémoire entière est compressée par l'attention. Le tenseur n'est plus explicite : il est distribué dans les milliards de poids du réseau.
     </div>
   </div>
+
 </div>
 
 <footer>Markov IA · Outil pédagogique · Chaînes de Markov 1er ordre</footer>
